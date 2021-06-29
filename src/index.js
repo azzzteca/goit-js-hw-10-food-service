@@ -6,23 +6,30 @@ const refs = {
   menu: document.querySelector('.js-menu'),
   switcher: document.getElementById('theme-switch-toggle'),
   body: document.querySelector('body'),
+  darkTheme: 'dark-theme',
+  lightTheme: 'light-theme',
 };
 
 refs.menu.innerHTML = menuTemplate(menuItems);
 
-refs.body.classList.add('light-theme');
+refs.body.classList.add(refs.lightTheme);
 
 refs.switcher.addEventListener('change', () => {
-  refs.body.classList.toggle('dark-theme');
-});
-//
-// 2. Написать код включения - выключения светлой темы на темную
-// - получить доступ к кнопке
-// - повесить слушателя на кнопку
-// - по событию менять стиль темы - меять класс?
-//
-//
+  //   isThemeSaved();
 
-//
-//
-//
+  refs.body.classList.toggle(refs.lightTheme);
+  refs.body.classList.toggle(refs.darkTheme);
+
+  console.log(localStorage.setItem('theme', refs.darkTheme));
+  console.log(localStorage.getItem('theme'));
+});
+
+// 3. сохранить в хранилище настройки темы
+
+// function isThemeSaved() {
+//   const savedTheme = localStorage.getItem('theme');
+
+//   if (savedTheme) {
+//     console.log('тема в наличии', savedTheme);
+//   }
+// }
