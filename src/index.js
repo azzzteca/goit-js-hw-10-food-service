@@ -12,24 +12,31 @@ const refs = {
 
 refs.menu.innerHTML = menuTemplate(menuItems);
 
-refs.body.classList.add(refs.lightTheme);
+isDataSaved();
 
-refs.switcher.addEventListener('change', () => {
-  //   isThemeSaved();
+refs.switcher.addEventListener('change', onThemeChange);
 
-  refs.body.classList.toggle(refs.lightTheme);
-  refs.body.classList.toggle(refs.darkTheme);
+function onThemeChange() {
+  if (!isDataSaved() || refs.body.classList.contains(refs.lightTheme)) {
+    refs.body.classList.remove(refs.lightTheme);
+    refs.body.classList.add(refs.darkTheme);
+    localStorage.setItem('theme', refs.darkTheme);
+  } else if (refs.body.classList.contains(refs.darkTheme)) {
+    refs.body.classList.remove(refs.darkTheme);
+    refs.body.classList.add(refs.lightTheme);
+    localStorage.setItem('theme', refs.lightTheme);
+    refs.switcher.checked = false;
+  }
+}
 
-  console.log(localStorage.setItem('theme', refs.darkTheme));
-  console.log(localStorage.getItem('theme'));
-});
+function isDataSaved() {
+  const savedData = localStorage.getItem('theme');
 
-// 3. сохранить в хранилище настройки темы
-
-// function isThemeSaved() {
-//   const savedTheme = localStorage.getItem('theme');
-
-//   if (savedTheme) {
-//     console.log('тема в наличии', savedTheme);
-//   }
-// }
+  if (savedData) {
+    refs.body.classList.add(savedData);
+    if (refs.body.classList.contains(refs.darkTheme)) {
+      refs.switcher.checked = true;
+    }
+    return savedData;
+  }
+}
